@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+      <style>
+          .container{
+              width: fit-content;
+              border: 5px solid black;
+              border-radius: 7px;
+              margin-top : 7.8vw ;
+              height: fit-content;
+          }
+          #form{
+              width: 26vw;
+
+          }
+          body {
+              margin: 0;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+              color: #fff;
+              display: flex;
+              justify-content: center;
+
+              height: 100vh;
+          }
+          #exampleInputEmail1:hover{
+              background-color: cadetblue;
+              transform: translateY(-6px);
+              transition-duration: 1.3s;
+          }
+          #exampleInputPassword1:hover{
+              background-color: cadetblue;
+              transform: translateY(-6px);
+              transition-duration: 1.3s;
+          }
+      </style>
+<body>
+
+<div class="container">
+    <form method = "post" action="/signupaction" id="form">
+
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label" >Username</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name = "signupemail" aria-describedby="emailHelp">
+
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label" >Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="signuppass">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label" >Confirm Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="confirmpass">
+        </div>
+
+        <button type="submit" formaction="/signupaction" class="btn btn-primary">SignUp</button>
+    </form>
+</div>
+</body>
+</html>
