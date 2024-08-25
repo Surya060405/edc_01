@@ -1,5 +1,6 @@
 from flask import Flask,session,request, jsonify, render_template, redirect , url_for
 import geopy
+from flask import *
 from geopy.distance import geodesic
 from flask_pymongo import PyMongo
 from pymongo import MongoClient
@@ -13,7 +14,7 @@ mongo = PyMongo(app)
 connection = MongoClient('localhost', 5000)
 # Office coordinates (latitude, longitude)
 OFFICE_COORDINATES = (22.55655514113349, 88.30784298509921)  # Replace with your office's latitude and longitude
-ALLOWED_RADIUS = 5  # Allowable radius in degrees (~11 km)
+ALLOWED_RADIUS = 435  # Allowable radius in degrees (~11 km)
 
 global_usr = None ;
 global_pass = None ;
@@ -22,6 +23,7 @@ global_pass = None ;
 
 @app.route('/')
 def home():
+
     return render_template('index.html')  # This is your main page
 
 @app.route('/check_location', methods=['POST','GET'])
@@ -37,6 +39,7 @@ def check_location():
 
 @app.route('/notinedc' , methods=['POST','GET'])
 def notinedc():
+
     return render_template('notinedc.html')
 
 @app.route('/turnonlocation' , methods=['POST','GET'])
@@ -76,7 +79,8 @@ def signupaction():
         mongo.db.StudentsInfo.insert_one(data)
         return render_template("Attendance.html")
     else:
-        return "Password Mismatch"
+
+        return render_template('login.html')
 
 @app.route('/loginaction' , methods=['POST','GET'])
 def loginaction():
