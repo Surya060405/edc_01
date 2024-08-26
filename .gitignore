@@ -2,7 +2,4 @@ package-lock.json
 node_modules/*
 .idea/*
 
-.venv/
-__pycache__/
-instance/
 
