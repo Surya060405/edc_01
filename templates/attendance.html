@@ -121,6 +121,107 @@
             border : 3px solid black;
             padding: 3vw;
         }
+        body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    display: flex;
+
+    height: 100vh;
+}
+
+.container1 {
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: #00d4ff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin: 0;
+}
+
+.scanner-container {
+    margin: 20px 0;
+}
+
+.scanner p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #c1c1c1;
+}
+
+.scan-frame {
+    margin: 20px auto;
+    width: 250px;
+    height: 250px;
+    border: 2px solid #00d4ff;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.laser {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: #00ff00;
+    animation: scan 2s infinite;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: 100%;
+    }
+}
+
+.action-buttons {
+    margin-top: 20px;
+}
+
+.button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    background: #00d4ff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.button:hover {
+    background: #008dbb;
+}
+
+
+
+footer {
+    margin-top: 760px;
+    margin-left: -360px ;
+}
+
+footer p {
+    font-size: 0.8rem;
+    color: #c1c1c1;
+}
+
     </style>
 </head>
 <body>
@@ -132,15 +233,27 @@
 </div>
 
 <div class="bigger">
-    <form class="formi" method="post" action="/usercheck">
+    <form class="formi" method="post" action="https://script.google.com/macros/s/AKfycbyHU0xQ4B-vF0iugWrxe3VihowAzQLOPG2J7IK3xNNOJluzRKlGXwa-1kXg4si0BSFS/exec">
 
-            <div class="row mb-3">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"><h5 style="padding-right: 23vw ; font-size: 1.3vw ; color: lightpink"><strong>Username</strong></h5></label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputEmail3" name="usercheck" required>
-                </div>
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label"><h5 style="padding-right: 23vw ; font-size: 0.9vw ; color: lightpink ; font-family: Verdana">Name</h5></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEmail3" id="in" name="Name" placeholder="Enter your full name" required>
             </div>
-
+        </div>
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label"><h5 style="padding-right: 23vw ; font-size: 0.9vw ; color: lightpink ; font-family: Verdana">Enrollment_ID</h5></label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword3"  name="Enroll" placeholder="Enter your Enrollment Number" oninput="upperCase()" required>
+            </div>
+        </div>
+    
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label"><h5 style="padding-right: 23vw ; font-size: 0.9vw ; color: lightpink ; font-family: Verdana">Username</h5></label>
+            <div class="col-sm-10">
+                <input type="text" readonly="readonly" class="form-control"  id="in" name="Username" value = <%= myvalue %> >
+            </div>
+        </div>
 
         <div class="bttn">
         <button class="btn " id="btbt"> <h3 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;">Mark Your Attendance</h3></button>
@@ -148,28 +261,11 @@
     </form>
 </div>
 </div>
-   <!--  class="scanner-container">
-        <div class="scanner">
-            <p>Place the QR code within the frame</p>
-            <div class="scan-frame">
-                <div class="laser"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="action-buttons">
-        <button class="button" id="scan-button">Scan QR Code</button>
-        <button class="button" id="history-button">View Attendance</button>
-    </div>
-</div>
-
-<footer>
-    <p>© 2024 QR Attendance System. All Rights Reserved.</p>
-</footer>
-
-<script src="scripts.js"></script> -->
-
-
+  
+<script >function upperCase(){
+   let element = document.getElementById('inputPassword3');
+   element.value = element.value.toUpperCase();
+    }</script>
 
 
 
