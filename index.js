@@ -1,40 +1,39 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const path = require('path');
 const bodyParser = require('body-parser');
+const path = require('path');
+const MongoClient = require('mongodb').MongoClient;
 const geolib = require('geolib');
 
 const app = express();
+
+
+const MONGO_URI = 'mongodb+srv://surya:Surya3949S@edcattend.0kysi.mongodb.net/?retryWrites=true&w=majority&appName=EDCattend';
+let db, userCollection;
+
+// MongoDB connection
+MongoClient.connect(MONGO_URI)
+    .then(client => {
+        db = client.db('EDC_Attendance');
+        userCollection = db.collection('Students_Info');
+    })
+    .catch(error => console.error(error));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('view engine', 'html');
+app.engine('html', require('ejs').renderFile);
+app.set('views', path.join(__dirname, 'views'));
 
-mongoose.connect('mongodb://localhost:27017/EDCAttendance', { useNewUrlParser: true, useUnifiedTopology: true });
-
-const studentSchema = new mongoose.Schema({
-    Username: String,
-    Password: String,
-});
-
-const Student = mongoose.model('Student', studentSchema);
 
 // Office coordinates (latitude, longitude)
 const OFFICE_COORDINATES = { latitude: 22.55655514113349, longitude: 88.30784298509921 };
-const ALLOWED_RADIUS = 1100; // Allowable radius in meters (~11 km)
+const ALLOWED_RADIUS = 15; // Allowable radius in meters (~11 km)
 
-let global_usr = null;
-let global_pass = null;
+let globalUsr = null;
+let globalPass = null;
 
-// Set the directory for the static assets (e.g., CSS, JS, images)
-app.use(express.static(path.join(__dirname, 'static')));
-
-// Set the views directory and view engine
-app.set('view engine', 'html');
-app.engine('html', require('ejs').renderFile);
-app.set('views', path.join(__dirname, 'templates'));
-
-// Routes
 app.get('/', (req, res) => {
-    res.render('index.html');
+    res.render('index');  // This is your main page
 });
 
 app.post('/check_location', (req, res) => {
@@ -52,72 +51,76 @@ app.post('/check_location', (req, res) => {
 });
 
 app.get('/notinedc', (req, res) => {
-    res.render('notInEDC.html');
+    res.render('notinedc');
 });
 
 app.get('/turnonlocation', (req, res) => {
-    res.render('turnOnLocation.html');
+    res.render('turnOnLocation');
 });
 
 app.get('/refresh', (req, res) => {
-    res.render('refresh.html');
+    res.render('refresh');
 });
 
 app.get('/signup', (req, res) => {
-    res.render('signup.html');
+    res.render('signup');
 });
 
 app.get('/login', (req, res) => {
-    res.render('login.html');
+    res.render('login');
 });
 
-app.post('/signupaction', async (req, res) => {
-    const { signupemail, signuppass, confirmpass } = req.body;
-    global_usr = signupemail;
-    global_pass = signuppass;
+app.post('/signupaction', (req, res) => {
+    const username = req.body.signupemail;
+    const password = req.body.signuppass;
+    const confirmPassword = req.body.confirmpass;
 
-    if (signuppass === confirmpass) {
-        const existingUser = await Student.findOne({ Username: signupemail });
-        if (existingUser) {
-            return res.render('UserAlreadyExists.html');
-        }
+    globalUsr = username;
+    globalPass = password;
 
-        const newStudent = new Student({ Username: signupemail, Password: signuppass });
-        await newStudent.save();
-        res.render('attendance.html', { myvalue : checkUser });
+    const data = {
+        Username: username,
+        Password: password
+    };
+
+    if (password === confirmPassword) {
+        userCollection.findOne({ Username: username })
+            .then(user => {
+                if (user) {
+                    res.render('UserAlreadyExists.html');
+                } else {
+                    userCollection.insertOne(data);
+                    res.render('attendance.html' , { myvalue: username });
+                }
+            })
+            .catch(error => console.error(error));
     } else {
-        res.render('login.html');
+        res.send('<script>alert("Passwords do not match. Please try again."); window.location.href = "/signup";</script>');
     }
 });
 
-app.post('/loginaction', async (req, res) => {
-    const { loginemail, loginpass } = req.body;
-    global_usr = loginemail;
-    global_pass = loginpass;
+app.post('/loginaction', (req, res) => {
+    const username = req.body.loginemail;
+    const password = req.body.loginpass;
 
-    const user = await Student.findOne({ Username: loginemail });
+    globalUsr = username;
+    globalPass = password;
 
-    if (user) {
-        if (user.Password === loginpass) {
-            res.render('attendance.html', { myvalue: global_usr });
-        } else {
-            res.send('Incorrect Password');
-        }
-    } else {
-        res.render('UsernotFound.html');
-    }
+    userCollection.findOne({ Username: username })
+        .then(user => {
+            if (user && user.Password === password) {
+                res.render('attendance.html' , { myvalue: username });
+            } else if (user) {
+                res.send('<script>alert("Incorrect Password"); window.location.href = "/login";</script>');
+            } else {
+                res.render('UsernotFound.html');
+            }
+        })
+        .catch(error => console.error(error));
 });
 
-app.post('/usercheck', (req, res) => {
-    const checkUser = req.body.usercheck;
 
-    if (checkUser !== global_usr) {
-        res.send('Wrong Username');
-    } else {
-        res.render('markAttendance.html', { myvalue: global_usr });
-    }
+app.listen(5005, () => {
+    console.log(`Server is running on http://127.0.0.1:5005`);
 });
 
-app.listen(5000, () => {
-    console.log('Server is running on http://localhost:5000');
-});
