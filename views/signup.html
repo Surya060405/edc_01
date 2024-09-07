@@ -13,6 +13,7 @@
               border-radius: 7px;
               margin-top : 7.8vw ;
               height: fit-content;
+              margin-bottom: 7vw;
           }
           #form{
               width: 26vw;
@@ -24,8 +25,9 @@
               background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
               color: #fff;
               display: flex;
-              justify-content: center;
-
+              
+              align-items: center;
+              flex-direction: column;
               height: 100vh;
           }
           #exampleInputEmail1:hover,
@@ -35,6 +37,9 @@
               transform: translateY(-6px);
               transition-duration: 1.3s;
           }
+          h3{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
       </style>
 <body>
 
@@ -60,6 +65,10 @@
         Already Have an Account? <button class="btn btn-dark" formaction="/login">LOGIN</button>
     </form>
     <br>
+</div>
+
+<div class="footer" style="border 3px solid ">
+    <h3> Made with <img src="love_12891321.png" height="20px"> by Surya </h3>
 </div>
 
 <script>
