@@ -14,14 +14,14 @@
         color: #fff;
         display: flex;
         justify-content: center;
-
+        align-items: center;
         height: 100vh;
     }
     .container{
         width: fit-content;
         border: 5px solid black;
         border-radius: 7px;
-        margin-top : 7.8vw ;
+        
         height: fit-content;
     }
     #form{
@@ -41,22 +41,38 @@
 </style>
 <body>
 <div class="container">
-    <form action="/loginaction" method="POST" id="form">
-        <div class="mb-3" >
+    <form action="/loginaction" method="POST" id="form" onsubmit="trimInputFields()">
+        <div class="mb-3" style="height: fit-content;">
             <label for="exampleInputEmail1" class="form-label" >Username</label>
             <input type="text" class="form-control" name = "loginemail" id="exampleInputEmail1" aria-describedby="emailHelp" required>
 
         </div>
-        <div class="mb-3">
+        <div class="mb-3" >
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1" name = "loginpass" required>
         </div>
-        <div class="mb-3 form-check">
 
-
-        </div>
-        <button  type="submit"  class="btn btn-primary">Login</button>
+        
+        <button  type="submit"  class="btn btn-primary">Login</button> <br><br>
+        
     </form>
+    <form>
+        New User ? <button class="btn btn-dark" formaction="/signup">SignUp</button>
+     </form>
 </div>
+<script>
+    function trimInputFields() {
+        // Get the input elements
+        const username = document.getElementById('exampleInputEmail1');
+        const password = document.getElementById('exampleInputPassword1');
+       
+
+        // Trim the leading and trailing spaces
+        username.value = username.value.trim();
+        password.value = password.value.trim();
+        
+    }
+</script>
+
 </body>
 </html>
