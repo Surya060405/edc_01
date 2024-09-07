@@ -33,7 +33,7 @@ let globalUsr = null;
 let globalPass = null;
 
 app.get('/', (req, res) => {
-    res.render('signup');  // This is your main page
+    res.render('login');  // This is your main page
 });
 
 app.post('/check_location', (req, res) => {
