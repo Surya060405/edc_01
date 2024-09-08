@@ -26,8 +26,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // Office coordinates (latitude, longitude)
-const OFFICE_COORDINATES = { latitude: 22.555761914211185, longitude: 88.30925180140297 };
-const ALLOWED_RADIUS = 260; // Allowable radius in meters (~11 km)
+const OFFICE_COORDINATES = { latitude: 22.55575821042349, longitude: 88.30909607413325 };
+const ALLOWED_RADIUS = 50; // Allowable radius in meters (~11 km)
 
 let globalUsr = null;
 let globalPass = null;
